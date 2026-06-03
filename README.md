@@ -6,21 +6,22 @@ Para lidar com a alta dimensionalidade e variáveis correlacionadas, o projeto a
 
 ## 📁 Estrutura do Projeto
 
+````text
 meu_projeto_olist/
 │
-├── dados/ # CSVs originais do Kaggle (Olist)
-│ ├── olist_customers_dataset.csv
-│ ├── olist_orders_dataset.csv
-│ └── ...
+├── dados/                           # CSVs originais do Kaggle (Olist)
+│   ├── olist_customers_dataset.csv
+│   ├── olist_orders_dataset.csv
+│   └── ...
 │
-├── src/ # Módulos Python (Lógica do negócio)
-│ ├── **init**.py  
-│ ├── processamento.py # Carga, merge, tratamento de log e escala
-│ ├── dimensionalidade.py # Ajuste e análise de variância do PCA
-│ └── modelagem.py # Algoritmos de clusterização e métricas
+├── src/                             # Módulos Python (Lógica do negócio)
+│   ├── __init__.py                  # Inicializador do pacote
+│   ├── processamento.py             # Carga, merge, tratamento de log e escala
+│   ├── dimensionalidade.py          # Ajuste e análise de variância do PCA
+│   └── modelagem.py                 # Algoritmos de clusterização e métricas
 │
-├── clusterizacao_clientes.ipynb # Notebook principal de execução
-└── README.md # Documentação do projeto
+├── clusterizacao_clientes.ipynb     # Notebook principal de execução
+└── README.md                        # Documentação do projeto
 
 ## 🛠️ Tecnologias e Dependências
 
@@ -44,7 +45,7 @@ No seu terminal, instale os pacotes necessários:
 ```bash
 pip install pandas numpy scikit-learn matplotlib seaborn notebook
 
-```
+````
 
 ### 3. Rodar o Pipeline pelo Jupyter Notebook
 
