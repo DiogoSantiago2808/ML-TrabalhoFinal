@@ -6,8 +6,6 @@ Para lidar com a alta dimensionalidade e variáveis correlacionadas, o projeto a
 
 ## 📁 Estrutura do Projeto
 
-O projeto foi modularizado para separar a lógica de processamento da visualização analítica.
-
 meu_projeto_olist/
 │
 ├── dados/ # CSVs originais do Kaggle (Olist)
@@ -16,7 +14,7 @@ meu_projeto_olist/
 │ └── ...
 │
 ├── src/ # Módulos Python (Lógica do negócio)
-│ ├── **init**.py
+│ ├── **init**.py  
 │ ├── processamento.py # Carga, merge, tratamento de log e escala
 │ ├── dimensionalidade.py # Ajuste e análise de variância do PCA
 │ └── modelagem.py # Algoritmos de clusterização e métricas
