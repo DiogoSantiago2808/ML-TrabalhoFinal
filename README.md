@@ -6,7 +6,7 @@ Para lidar com a alta dimensionalidade e variáveis correlacionadas, o projeto a
 
 ## 📁 Estrutura do Projeto
 
-````text
+```text
 meu_projeto_olist/
 │
 ├── dados/                           # CSVs originais do Kaggle (Olist)
@@ -22,6 +22,7 @@ meu_projeto_olist/
 │
 ├── clusterizacao_clientes.ipynb     # Notebook principal de execução
 └── README.md                        # Documentação do projeto
+```
 
 ## 🛠️ Tecnologias e Dependências
 
@@ -45,7 +46,7 @@ No seu terminal, instale os pacotes necessários:
 ```bash
 pip install pandas numpy scikit-learn matplotlib seaborn notebook
 
-````
+```
 
 ### 3. Rodar o Pipeline pelo Jupyter Notebook
 
