@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import prince
+import warnings
 
 def aplicar_famd(df: pd.DataFrame, colunas_features: list, n_componentes: int = 12) -> tuple:
     df_famd = df[colunas_features].copy()
@@ -20,8 +21,11 @@ def aplicar_famd(df: pd.DataFrame, colunas_features: list, n_componentes: int = 
         random_state=42
     )
     
-    famd_modelo.fit(df_famd)
-    dados_transformados = famd_modelo.row_coordinates(df_famd).to_numpy()
+    # Ignora os warnings do SVD aleatório do scikit-learn para evitar poluição visual
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=RuntimeWarning)
+        famd_modelo.fit(df_famd)
+        dados_transformados = famd_modelo.row_coordinates(df_famd).to_numpy()
     
     print(f"[FAMD] Dados reduzidos com sucesso para {n_componentes} eixos.")
     return famd_modelo, dados_transformados

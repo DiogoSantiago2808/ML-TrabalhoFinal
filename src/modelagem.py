@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import warnings
 from sklearn.cluster import KMeans
 from sklearn.mixture import GaussianMixture
 from sklearn.metrics import silhouette_score, adjusted_rand_score, normalized_mutual_info_score
@@ -11,14 +12,16 @@ def rodar_kmeans(dados_famd: np.ndarray, k_max: int = 10, k_escolhido: int = 4):
     ks = range(2, k_max + 1)
     
     print("[K-Means] A avaliar métricas de hiperparâmetros...")
-    for k in ks:
-        kmeans = KMeans(n_clusters=k, n_init=10, random_state=42)
-        labels_temp = kmeans.fit_predict(dados_famd)
-        
-        inercias.append(kmeans.inertia_)
-        
-        score_sil = silhouette_score(dados_famd, labels_temp, sample_size=10000, random_state=42)
-        silhuetas.append(score_sil)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=RuntimeWarning)
+        for k in ks:
+            kmeans = KMeans(n_clusters=k, n_init=10, random_state=42)
+            labels_temp = kmeans.fit_predict(dados_famd)
+            
+            inercias.append(kmeans.inertia_)
+            
+            score_sil = silhouette_score(dados_famd, labels_temp, sample_size=10000, random_state=42)
+            silhuetas.append(score_sil)
         
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
     
@@ -41,7 +44,9 @@ def rodar_kmeans(dados_famd: np.ndarray, k_max: int = 10, k_escolhido: int = 4):
     
     print(f"[K-Means] A ajustar o modelo definitivo com K = {k_escolhido}...")
     kmeans_modelo = KMeans(n_clusters=k_escolhido, n_init=10, random_state=42)
-    labels = kmeans_modelo.fit_predict(dados_famd)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=RuntimeWarning)
+        labels = kmeans_modelo.fit_predict(dados_famd)
     
     return kmeans_modelo, labels
 
@@ -52,12 +57,14 @@ def rodar_gmm(dados_famd: np.ndarray, n_max: int = 10, n_escolhido: int = 4):
     ns = range(2, n_max + 1)
     
     print("[GMM] A avaliar curvas de densidade probabilística...")
-    for n in ns:
-        gmm = GaussianMixture(n_components=n, random_state=42)
-        gmm.fit(dados_famd)
-        
-        bics.append(gmm.bic(dados_famd))
-        aics.append(gmm.aic(dados_famd))
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=RuntimeWarning)
+        for n in ns:
+            gmm = GaussianMixture(n_components=n, random_state=42)
+            gmm.fit(dados_famd)
+            
+            bics.append(gmm.bic(dados_famd))
+            aics.append(gmm.aic(dados_famd))
         
     plt.figure(figsize=(9, 5))
     plt.plot(ns, bics, marker='o', linestyle='-', color='crimson', linewidth=2, label='BIC (Bayesian Information Criterion)')
@@ -73,8 +80,10 @@ def rodar_gmm(dados_famd: np.ndarray, n_max: int = 10, n_escolhido: int = 4):
 
     print(f"[GMM] A ajustar o modelo definitivo com N = {n_escolhido}...")
     gmm_modelo = GaussianMixture(n_components=n_escolhido, random_state=42)
-    gmm_modelo.fit(dados_famd)
-    labels = gmm_modelo.predict(dados_famd)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=RuntimeWarning)
+        gmm_modelo.fit(dados_famd)
+        labels = gmm_modelo.predict(dados_famd)
     
     return gmm_modelo, labels
 
