@@ -4,10 +4,6 @@ import matplotlib.pyplot as plt
 import prince
 
 def aplicar_famd(df: pd.DataFrame, colunas_features: list, n_componentes: int = 12) -> tuple:
-    """
-    Passo 3 (Parte A): Ajusta o modelo FAMD no DataFrame híbrido.
-    Apenas colunas binárias de comportamento fixo viram strings (categóricas).
-    """
     df_famd = df[colunas_features].copy()
     
     colunas_categoricas = ['escreveu_comentario', 'is_sudeste']
@@ -32,27 +28,18 @@ def aplicar_famd(df: pd.DataFrame, colunas_features: list, n_componentes: int = 
 
 
 def encontrar_melhor_k_famd(famd_modelo) -> int:
-    """
-    Aplica técnicas estatísticas combinadas para recomendar o número ideal 
-    de componentes de forma 100% automatizada e reprodutível.
-    """
-    # 1. Critério de Kaiser: extrai os autovalores (eigenvalues) de cada componente.
-    # Recomenda manter eixos que explicam mais variância que uma variável individual padronizada (> 1.0)
     eigenvalues = np.array(famd_modelo.eigenvalues_)
     k_kaiser = np.sum(eigenvalues > 1.0)
     
-    # 2. Critério do Cotovelo via Queda de Ganho Marginal
     variancias = np.array(famd_modelo.percentage_of_variance_) / 100
     media_ganho = np.mean(variancias)
     
-    k_cotovelo = 3 # Valor mínimo padrão seguro para e-commerce
+    k_cotovelo = 3
     for i in range(1, len(variancias)):
-        # Identifica o ponto de inclinação onde o ganho marginal cai abaixo da média esperada
         if variancias[i] < (media_ganho * 0.90):
             k_cotovelo = i
             break
             
-    # Tomada de decisão consolidada
     if 2 <= k_kaiser <= 6:
         n_recomendado = int(k_kaiser)
         metodo = "Critério de Kaiser (Autovalores > 1.0)"
@@ -67,10 +54,6 @@ def encontrar_melhor_k_famd(famd_modelo) -> int:
 
 
 def plotar_variancia_famd(famd_modelo, n_recomendado: int = None) -> None:
-    """
-    Passo 3 (Parte B): Plota a curva de variância explicada acumulada pelo FAMD
-    e adiciona marcadores de corte sugeridos.
-    """
     variancia_individual = [v / 100 for v in famd_modelo.percentage_of_variance_]
     variancia_acumulada = np.cumsum(variancia_individual)
     
@@ -85,7 +68,6 @@ def plotar_variancia_famd(famd_modelo, n_recomendado: int = None) -> None:
         label='Variância Acumulada'
     )
     
-    # Se uma recomendação for passada, plota a linha vertical de destaque
     if n_recomendado:
         plt.axvline(
             x=n_recomendado, 

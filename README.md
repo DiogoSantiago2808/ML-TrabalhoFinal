@@ -2,7 +2,7 @@
 
 Este projeto tem como objetivo realizar a segmentação de clientes da plataforma de e-commerce brasileira **Olist**. Utilizando técnicas de Machine Learning não supervisionado (**K-Means** e **GMM - Gaussian Mixture Models**), o pipeline identifica perfis de comportamento de compra para direcionar estratégias de marketing, retenção (churn) e Growth.
 
-Para lidar com a alta dimensionalidade e variáveis correlacionadas, o projeto aplica a Análise de Componentes Principais (**PCA**) após o tratamento estatístico e padronização dos dados brutos.
+Para lidar com a alta dimensionalidade e variáveis mistas, o projeto aplica a Análise Fatorial de Dados Mistos (**FAMD**) após o tratamento estatístico e padronização dos dados brutos.
 
 ## 📁 Estrutura do Projeto
 
@@ -17,7 +17,7 @@ meu_projeto_olist/
 ├── src/                             # Módulos Python (Lógica do negócio)
 │   ├── __init__.py                  # Inicializador do pacote
 │   ├── processamento.py             # Carga, merge, tratamento de log e escala
-│   ├── dimensionalidade.py          # Ajuste e análise de variância do PCA
+│   ├── dimensionalidade.py          # Ajuste e análise de variância do FAMD
 │   └── modelagem.py                 # Algoritmos de clusterização e métricas
 │
 ├── clusterizacao_clientes.ipynb     # Notebook principal de execução
@@ -30,7 +30,8 @@ As seguintes ferramentas foram utilizadas no desenvolvimento deste ecossistema:
 
 - **Python 3.x**
 - **Pandas & NumPy:** Manipulação e consolidação matricial dos dados.
-- **Scikit-Learn:** Engenharia de atributos (`StandardScaler`), Redução de dimensionalidade (`PCA`) e Algoritmos de Clusterização (`KMeans`, `GaussianMixture`).
+- **Scikit-Learn:** Algoritmos de Clusterização (`KMeans`, `GaussianMixture`).
+- **Prince:** Redução de dimensionalidade para dados mistos (`FAMD`).
 - **Matplotlib & Seaborn:** Visualização de dados e plotagem de curvas de validação.
 
 ## 🚀 Como Executar o Projeto
@@ -44,7 +45,7 @@ Certifique-se de baixar o conjunto de dados [Brazilian E-Commerce Public Dataset
 No seu terminal, instale os pacotes necessários:
 
 ```bash
-pip install pandas numpy scikit-learn matplotlib seaborn notebook
+pip install pandas numpy scikit-learn matplotlib seaborn notebook prince
 
 ```
 
@@ -60,7 +61,7 @@ Abra o arquivo `clusterizacao_clientes.ipynb`. Graças à configuração de `%au
 - Extração de métricas de **RFM** (Recência, Frequência, Valor Monetário) combinadas com características operacionais (Nota de avaliação média, valor total do frete e parcelas médias).
 - Aplicação de `np.log1p` para mitigar o efeito da cauda longa e distribuição assimétrica do e-commerce.
 
-### 2. Redução de Espaço (PCA)
+### 2. Redução de Espaço (FAMD)
 
 - Avaliação por **Variância Explicada Acumulada** para determinar o número ideal de componentes principais que retêm a informação essencial (foco entre 80% e 95% de variância).
 
